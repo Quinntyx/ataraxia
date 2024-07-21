@@ -1,0 +1,53 @@
+// We have functions (all functions are anonymous closures)
+let pretty_print = fn(x) {
+    // taking from lua, methods are called using the colon
+    // we do not have user-defined types, only tables
+    // this is useful to allow functions in tables to take a self argument
+    // .. is also string concatenation, similar to lua
+    // however there is no type coercion
+    print("Pretty :3 " .. x:to_string())
+}
+
+
+// rust-style syntax for returns, the last line in a codeblock without a semicolon returns the value of the expression
+let foo = fn() {
+    5
+}
+
+// functions can be followed by any expression, they don't necessarily need a block
+// but if they're not followed by a block they need a semicolon
+let foo = fn() 5;
+
+// single-expression functions can also take arguments
+let foo = fn(x) print("Baz:" .. x:to_string());
+
+// functions can return each other and are technically closures because they can capture scope
+let foo = fn(x) {
+    fn(y) {
+        x + y
+    }
+}
+
+// declaring a function is considered a single expression, so this is also valid
+let foo = fn(x) fn(y) {
+    x + y
+}
+
+// Tables are declared with square brackets to distinguish them from blocks
+// there are no lists so this isn't ambiguous
+// you can mix numeric and keyword arguments, just like lua
+[
+    "foo",
+    bar = "baz",
+]
+
+for 
+
+// all files are evaluated like one giant block, you can `return` from them and the last
+// line in any file is automatically the value of the block
+// this means you can have a file with a table in it, and use it like fancy JSON if you want
+[
+    "foo",
+    "bar",
+    baz = "something"
+]

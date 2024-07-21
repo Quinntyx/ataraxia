@@ -1,0 +1,9 @@
+[package]
+name = "ataraxia"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chumsky = { version = "1.0.0-alpha.7", features = ["nightly"] }
+dyn-clone = "1.0.17"
+logos = "0.14.0"

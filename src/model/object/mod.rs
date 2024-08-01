@@ -23,6 +23,14 @@ pub trait Object: DynClone + Debug + Trace + Finalize {
     }
 
     fn index(&self, index: table::Table) -> Value;
+
+    fn add_value(&self, other: Value) -> Value {
+        Value::err("Attempted to add objects without an add implementation")
+    }
+
+    fn div_value(&self, other: Value) -> Value {
+        Value::err("Attempted to divide objects without a div implementation")
+    }
 }
 
 dyn_clone::clone_trait_object!(Object);

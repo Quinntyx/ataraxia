@@ -7,6 +7,7 @@ use logos::Logos;
 
 use ataraxia::lexer::Token;
 use ataraxia::parser::parser;
+use ataraxia::interpreter::eval;
 
 fn main() {
     let src = std::fs::read_to_string(std::env::args().nth(1).unwrap()).unwrap();
@@ -37,9 +38,14 @@ fn main() {
 
     let eoi = src.len()..src.len();
 
-    dbg!(parser().parse(
+    let parser_output = dbg!(parser().parse(
         Stream::from_iter(tokens.into_iter().map(|(t, s)| (t, s.into()))).spanned(eoi.into())
     ));
+
+    println!("Parser test completed.");
+    println!("Testing interpreter");
+
+    dbg!(eval(parser_output.unwrap()));
 
     // println!("{:?}", parser().parse(src));
 }

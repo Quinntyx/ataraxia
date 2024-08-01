@@ -5,7 +5,7 @@ use gc::{Finalize, Trace};
 use crate::model::reference::Value;
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, Finalize, Trace)]
-pub struct Error(String);
+pub struct Error(pub String);
 
 impl Object for Error {
     fn get_field(&self, field: String) -> Value {

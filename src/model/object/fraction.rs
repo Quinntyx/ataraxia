@@ -8,9 +8,9 @@ use rug::Integer as BigInt;
 #[derive(Trace, Finalize, Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Fraction {
     #[unsafe_ignore_trace]
-    top: BigInt,
+    pub numerator: BigInt,
     #[unsafe_ignore_trace]
-    bot: BigInt,
+    pub denominator: BigInt,
 }
 
 impl Object for Fraction {

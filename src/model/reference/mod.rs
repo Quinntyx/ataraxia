@@ -33,4 +33,29 @@ pub enum Value {
 
 
 impl Value {
+    pub fn err(str: &str) -> Value {
+        Value::Error(Error(String::from(str)))
+    }
+}
+
+impl std::ops::Add for Value {
+    type Output = Value;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        match &self {
+            Value::Integer(i) => i.add_value(rhs),
+            _ => Value::err("Add has not yet been implemented for this type")
+        }
+    }
+}
+
+impl std::ops::Div for Value {
+    type Output = Value;
+
+    fn div(self, rhs: Self) -> Self::Output {
+        match &self {
+            Value::Integer(i) => i.div_value(rhs),
+            _ => Value::err("Add has not yet been implemented for this type")
+        }
+    }
 }

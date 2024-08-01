@@ -1,0 +1,49 @@
+use super::Object;
+
+use std::collections::HashMap;
+
+use crate::model::object::integer::Integer;
+use crate::model::reference::{Value, Ref};
+
+use gc::{Finalize, Gc, GcCell, Trace};
+
+#[derive(Clone, Debug, Trace, Finalize)]
+pub struct Table(HashMap<Key, (Value, Value)>);
+
+#[derive(Hash, Clone, Debug, Trace, Finalize)]
+enum Key {
+    Integer(Integer),
+    F64(f64),
+    Range(Range),
+    Ref(Box<Ref>),
+    True,
+    False,
+    Nil
+}
+
+impl Table {
+    pub fn new() -> Table {
+        Table(HashMap::new())
+    }
+
+    pub fn single(value: Value) -> Table {
+        let mut table = Table::new();
+        table.insert(Value::Integer(Integer::new()), value);
+        table
+    }
+
+    pub fn insert(&mut self, key: Value, value: Value) {
+        self.0
+            .insert(key.id(), (key, value));
+    }
+}
+
+impl Object for Table {
+    fn index(&self, index: Table) -> Value {
+        todo!("FIXME <Table as Object>::index has not yet been implemented")
+    }
+
+    fn get_field(&self, field: String) -> Value {
+        todo!("FIXME <Table as Object>::get_field has not yet been implemented")
+    }
+}

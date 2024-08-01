@@ -1,116 +1,179 @@
-use std::collections::HashMap;
-
-use crate::model::object::float::Float;
-use crate::model::object::function::Function;
-use crate::model::object::primitive::Primitive;
-use crate::model::object::table::Table;
-use crate::model::object::Object;
 use crate::model::operator::Operator;
 
 #[derive(Clone, Debug)]
+pub enum Element {
+    KV((Expression, Expression)),
+    V(Expression),
+}
+
+#[derive(Clone, Debug)]
 pub enum Expression {
-    Literal(Primitive),
-    Float(Float),
+    Noop,
+    Integer(i64),
+    Bool(bool),
+    // FIXME?: Inclusive Ranges implemented as adding 1 arbitrarily, perhaps should support custom
+    // types instead and have a special inclusive behavior instead of expecting integer?
+    Range(Option<Box<Expression>>, Option<Box<Expression>>),
+    Err(String),
+    Nil(String),
+    String(String),
+    Float(f64),
     Block(Vec<Expression>, Box<Expression>),
 
     Conditional {
         cond: Box<Expression>,
         eval: Box<Expression>,
     },
-    If {
+    If(
         // this should always be Conditional
-        cases: Vec<Expression>,
-    },
+        Vec<Expression>,
+    ),
 
     For {
         variable: String,
         object: Box<Expression>,
     },
-    Continue,
-    Break {
-        ret: Option<Box<Expression>>,
+    While {
+        cond: Box<Expression>,
+        eval: Box<Expression>,
     },
+    Loop(Box<Expression>),
+    Continue,
+    Break(Option<Box<Expression>>),
 
     Operator {
         op: Operator,
-        left: Option<Box<Expression>>,
-        right: Option<Box<Expression>>,
+        left: Box<Expression>,
+        right: Box<Expression>,
+    },
+    UnaryOperator {
+        op: Operator,
+        value: Box<Expression>,
     },
     Access {
         left: Box<Expression>,
         right: String,
     },
-    Index {
-        object: Box<Expression>,
-        index: Box<Expression>,
-    },
+    Index(Box<Expression>, Vec<Expression>),
 
     Identifier(String),
     OptionalIdentifier(String),
 
-    Call {
-        callable: Box<Expression>,
-        arguments: HashMap<String, Expression>,
-    },
+    Call(Box<Expression>, Vec<Element>),
+    Method(Box<Expression>, String),
 
-    Fn(String, Function),
-    Return {
-        ret: Option<Box<Expression>>,
-    },
+    Fn(Vec<Element>, Box<Expression>),
+    Return(Option<Box<Expression>>),
 
     Let(String),
     Mut(String),
 
-    Table(Table),
+    Table(Vec<Element>),
 }
 
-impl Object for Expression {}
-
 impl Expression {
-    pub fn op_unary_minus(r: Expression) -> Self {
-        Expression::Operator {
+    pub fn op_unary_minus(r: Expression) -> Expression {
+        Expression::UnaryOperator {
             op: Operator::Minus,
-            left: None,
-            right: Some(Box::new(r)),
+            value: Box::new(r),
         }
     }
 
-    pub fn op_minus(l: Expression, r: Expression) -> Self {
+    pub fn op_minus(l: Expression, r: Expression) -> Expression {
         Expression::Operator {
             op: Operator::Minus,
-            left: Some(Box::new(l)),
-            right: Some(Box::new(r)),
+            left: Box::new(l),
+            right: Box::new(r),
         }
     }
 
-    pub fn op_plus(l: Expression, r: Expression) -> Self {
+    pub fn op_access(l: Expression, r: Expression) -> Expression {
+        Expression::Operator {
+            op: Operator::Access,
+            left: Box::new(l),
+            right: Box::new(r),
+        }
+    }
+
+    pub fn op_cat(l: Expression, r: Expression) -> Expression {
+        Expression::Operator {
+            op: Operator::Cat,
+            left: Box::new(l),
+            right: Box::new(r),
+        }
+    }
+
+    pub fn op_assign(l: Expression, r: Expression) -> Expression {
+        Expression::Operator {
+            op: Operator::Assign,
+            left: Box::new(l),
+            right: Box::new(r),
+        }
+    }
+
+    pub fn op_exponent(l: Expression, r: Expression) -> Expression {
+        Expression::Operator {
+            op: Operator::Exponent,
+            left: Box::new(l),
+            right: Box::new(r),
+        }
+    }
+
+    pub fn op_plus(l: Expression, r: Expression) -> Expression {
         Expression::Operator {
             op: Operator::Plus,
-            left: Some(Box::new(l)),
-            right: Some(Box::new(r)),
+            left: Box::new(l),
+            right: Box::new(r),
         }
     }
 
-    pub fn op_multiply(l: Expression, r: Expression) -> Self {
+    pub fn op_multiply(l: Expression, r: Expression) -> Expression {
         Expression::Operator {
             op: Operator::Multiply,
-            left: Some(Box::new(l)),
-            right: Some(Box::new(r)),
+            left: Box::new(l),
+            right: Box::new(r),
         }
     }
 
-    pub fn op_divide(l: Expression, r: Expression) -> Self {
+    pub fn op_divide(l: Expression, r: Expression) -> Expression {
         Expression::Operator {
             op: Operator::Divide,
-            left: Some(Box::new(l)),
-            right: Some(Box::new(r)),
+            left: Box::new(l),
+            right: Box::new(r),
         }
     }
 
-    pub fn cond(l: Expression, r: Expression) -> Self {
+    pub fn cond(l: Expression, r: Expression) -> Expression {
         Expression::Conditional {
             cond: Box::new(l),
             eval: Box::new(r),
         }
+    }
+
+    pub fn b_true() -> Expression {
+        Expression::Bool(true)
+    }
+
+    pub fn b_false() -> Expression {
+        Expression::Bool(false)
+    }
+
+    pub fn err(s: &str) -> Expression {
+        Expression::Err(String::from(s))
+    }
+
+    pub fn nil(s: &str) -> Expression {
+        Expression::Err(String::from(s))
+    }
+
+    pub fn l_while(cond: Expression, eval: Expression) -> Expression {
+        Expression::While {
+            cond: Box::new(cond),
+            eval: Box::new(eval),
+        }
+    }
+
+    pub fn l_loop(eval: Expression) -> Expression {
+        Expression::Loop(Box::new(eval))
     }
 }

@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-chumsky = { version = "1.0.0-alpha.7", features = ["nightly"] }
+chumsky = { version = "1.0.0-alpha.7", features = ["nightly", "label"] }
 dyn-clone = "1.0.17"
+gc = { version = "0.5.0", features = [ "derive", "nightly" ] }
 logos = "0.14.0"
+ordered-float = "4.2.2"
+rug = { version = "1.25.0", default-features = false, features = [ "integer" ] }

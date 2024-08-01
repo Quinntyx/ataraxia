@@ -1,0 +1,4 @@
+let foo = fn(x) fn(y) fn(z) {
+    let w = x + y + z;
+    w ** 3
+}

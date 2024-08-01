@@ -1,12 +1,26 @@
-use std::collections::HashMap;
+use super::Object;
 
 use crate::model::expression::Expression;
-use crate::model::object::Object;
+use crate::model::object::scope::Scope;
+use crate::model::object::table::Table;
+use crate::model::reference::Value;
 
-#[derive(Clone, Debug)]
+use gc::{Finalize, Trace};
+
+#[derive(Clone, Debug, Trace, Finalize)]
 pub struct Function {
-    pub args: HashMap<String, Box<dyn Object>>,
+    pub args: Table,
+    #[unsafe_ignore_trace] // FIXME: This may be an issue, check it if something crashes
     pub expr: Box<Expression>,
+    pub scope: Scope,
 }
 
-impl Object for Function {}
+impl Object for Function {
+    fn index(&self, index: Table) -> Value {
+        todo!("FIXME <Function as Object>::index has not yet been implemented")
+    }
+
+    fn get_field(&self, field: String) -> Value {
+        todo!("FIXME <Function as Object>::get_field has not yet been implemented")
+    }
+}

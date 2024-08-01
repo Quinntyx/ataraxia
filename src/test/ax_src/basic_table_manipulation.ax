@@ -1,0 +1,17 @@
+var t = [
+    foo = "bar",
+    baz = [
+        1,
+        2,
+        3,
+        x = "foo",
+    ]
+];
+
+print(t.foo);
+
+// t.a = fn(self, str) {
+//     print(self.baz[0]:to_string() .. ' ' .. str); 
+// };
+
+t:a(":3");

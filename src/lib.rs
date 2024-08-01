@@ -1,4 +1,4 @@
-#![feature(type_alias_impl_trait)]
+#![allow(unused_variables)]
+pub mod lexer;
 pub mod model;
 pub mod parser;
-pub mod lexer;

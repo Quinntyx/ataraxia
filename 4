@@ -1,0 +1,39 @@
+use crate::model::object::Object;
+use crate::model::object::nil::Nil;
+use crate::model::object::integer::Integer;
+use crate::model::object::range::Range;
+
+use gc::{Gc, GcCell, Trace, Finalize};
+
+#[derive(Clone, Trace, Finalize, Debug)]
+pub enum Ref {
+    Mut(Gc<GcCell<dyn Object>>),
+    Const(Gc<GcCell<dyn Object>>),
+}
+
+// FIXME: Make sure there are no remaining Value types missing from here
+#[derive(Clone, Trace, Finalize, Debug)]
+pub enum Value {
+    Integer(Integer),
+    F64(f64),
+    Range(Range),
+
+
+    Ref(Box<Ref>),
+
+    True,
+    False,
+
+    Nil,
+}
+
+
+impl Value {
+    pub fn id(&self) -> Option<usize> {
+        match self {
+
+            Ref::Mut(t) | Ref::Const(t) => Some(t.as_ref() as *const _ as *const Nil as usize),
+            _ => None,
+        }
+    }
+}

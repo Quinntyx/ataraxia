@@ -5,4 +5,8 @@ pub enum Operator {
     Multiply,
     Divide,
     Size,
+    Exponent,
+    Access,
+    Cat,
+    Assign,
 }

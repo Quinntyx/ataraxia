@@ -1,6 +1,23 @@
-use crate::model::object::Object;
+use super::Object;
 
-#[derive(Clone, Debug)]
-pub struct Float(pub f64);
+use crate::model::object::table::Table;
+use crate::model::reference::Value;
 
-impl Object for Float {}
+use ordered_float::OrderedFloat;
+use gc::{Trace, Finalize};
+
+#[derive(Hash, Debug, PartialEq, Eq, Trace, Finalize, Clone)]
+pub struct Float64 {
+    #[unsafe_ignore_trace]
+    internal: OrderedFloat<f64>,
+}
+
+impl Object for Float64 {
+    fn get_field(&self, field: String) -> Value {
+        todo!("FIXME <Float64 as Object>::get_field has not yet been implemented")
+    }
+
+    fn index(&self, index: Table) -> Value {
+        todo!("FIXME <Float64 as Object>::index has not yet been implemented")
+    }
+}

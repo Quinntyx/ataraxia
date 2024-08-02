@@ -18,7 +18,7 @@ pub enum Expression {
     Err(String),
     Nil(String),
     String(String),
-    Float(Fraction),
+    Frac(Fraction),
     Block(Vec<Expression>, Box<Expression>),
 
     Conditional {

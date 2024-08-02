@@ -102,7 +102,7 @@ pub enum Token {
             denominator: 10u32.pow(remainder.len() as u32).into(),
         }
     }, priority=200)]
-    Float(Fraction),
+    Frac(Fraction),
 
     // Comments
     #[regex(r"/\*([^*]|\*+[^*/])*\*+/", |lex| lex.slice().split_at(2).1.trim().to_owned())]

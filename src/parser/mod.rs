@@ -182,18 +182,18 @@ where
         .boxed();
 
     let float_as_float = any()
-        .filter(|t| matches!(t, Token::Float(_)))
+        .filter(|t| matches!(t, Token::Frac(_)))
         .map(|t| match t {
-            Token::Float(v) => v,
+            Token::Frac(v) => v,
             _ => unreachable!("Attempted to parse float from other token type"),
         })
-        .labelled("floating point number")
+        .labelled("fraction")
         .boxed();
 
     let float = float_as_float
         .clone()
-        .map(|t| Expr::Float(t))
-        .labelled("floating point number")
+        .map(|t| Expr::Frac(t))
+        .labelled("fraction")
         .boxed();
 
     // let range_nol = just(Token::Range)

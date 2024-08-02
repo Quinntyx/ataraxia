@@ -20,7 +20,7 @@ pub fn eval(expr: E) -> Value {
                 _ => Value::err("Operator has not yet been implemented")
             }
         },
-        E::Float(f) => Value::Fraction(f),
+        E::Frac(f) => Value::Fraction(f),
 
         _ => todo!("Not yet implemented"),
 

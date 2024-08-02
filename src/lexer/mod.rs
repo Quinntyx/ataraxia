@@ -1,3 +1,5 @@
+use crate::model::object::fraction::Fraction;
+
 use logos::Logos;
 
 #[derive(Logos, Clone, Debug, PartialEq)]
@@ -91,8 +93,16 @@ pub enum Token {
     #[regex(r"(?:\d)*", |lex| lex.slice().parse::<i64>().unwrap(), priority=150)]
     Integer(i64),
     // #[regex(r"\d+\.\d+|\d+\.|\.\d+", |lex| dbg!(lex.slice()).parse::<f64>().unwrap(), priority=200)]
-    #[regex(r"\d\.\d", |lex| lex.slice().parse::<f64>().unwrap(), priority=200)]
-    Float(f64),
+    #[regex(r"\d+\.\d+", |lex| {
+        let mut iter = lex.slice().split('.');
+        let int = iter.next().unwrap();
+        let remainder = iter.next().unwrap();
+        Fraction {
+            numerator: format!("{}{}", int, remainder).parse::<i64>().unwrap().into(),
+            denominator: 10u32.pow(remainder.len() as u32).into(),
+        }
+    }, priority=200)]
+    Float(Fraction),
 
     // Comments
     #[regex(r"/\*([^*]|\*+[^*/])*\*+/", |lex| lex.slice().split_at(2).1.trim().to_owned())]

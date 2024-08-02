@@ -1,4 +1,5 @@
 use crate::model::operator::Operator;
+use crate::model::object::fraction::Fraction;
 
 #[derive(Clone, Debug)]
 pub enum Element {
@@ -17,7 +18,7 @@ pub enum Expression {
     Err(String),
     Nil(String),
     String(String),
-    Float(f64),
+    Float(Fraction),
     Block(Vec<Expression>, Box<Expression>),
 
     Conditional {

@@ -44,6 +44,7 @@ impl std::ops::Add for Value {
     fn add(self, rhs: Self) -> Self::Output {
         match &self {
             Value::Integer(i) => i.add_value(rhs),
+            Value::Fraction(i) => i.add_value(rhs),
             _ => Value::err("Add has not yet been implemented for this type")
         }
     }

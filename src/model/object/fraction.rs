@@ -1,6 +1,7 @@
 use super::Object;
 
 use crate::model::reference::Value;
+use crate::model::object::integer::Integer;
 
 use gc::{Finalize, Trace};
 use rug::Integer as BigInt;
@@ -20,5 +21,51 @@ impl Object for Fraction {
 
     fn get_field(&self, field: String) -> Value {
         todo!("FIXME <Fraction as Object>::get_field has not yet been implemented");
+    }
+
+    fn add_value(&self, other: Value) -> Value {
+        match &other {
+            Value::Fraction(i) => Value::Fraction(self.clone() + i.clone()),
+            Value::Integer(i) => Value::Fraction(self.clone() + i.clone()),
+            _ => Value::err("Attempted to add Fraction to unsupported type"),
+        }
+    }
+}
+
+impl TryFrom<Value> for Fraction {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match &value {
+            Value::Fraction(i) => Ok(i.clone()),
+            _ => Err(Value::err("Attempted to convert non-fractional `Value` to `Fraction`")),
+        }
+    }
+}
+
+impl std::ops::Add for Fraction {
+    type Output = Fraction;
+    fn add(self, rhs: Self) -> Self::Output {
+        if self.denominator == rhs.denominator {
+            Fraction {
+                numerator: self.numerator.clone() + rhs.numerator.clone(),
+                denominator: self.denominator.clone(),
+            }
+        } else {
+            Fraction {
+                numerator: self.numerator.clone() * rhs.denominator.clone() + rhs.numerator.clone() * self.denominator.clone(),
+                denominator: self.denominator.clone() * rhs.denominator.clone(),
+            }
+        }
+        
+    }
+}
+
+impl std::ops::Add<Integer> for Fraction {
+    type Output = Fraction;
+    fn add(self, rhs: Integer) -> Self::Output {
+        Fraction {
+            numerator: self.numerator.clone() + rhs.internal.clone() * self.denominator.clone(),
+            denominator: self.denominator.clone(),
+        }
     }
 }

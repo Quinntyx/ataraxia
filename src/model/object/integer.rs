@@ -10,7 +10,7 @@ use rug::Integer as BigInt;
 #[derive(Trace, Finalize, Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Integer {
     #[unsafe_ignore_trace]
-    internal: BigInt,
+    pub internal: BigInt,
 }
 
 impl Integer {
@@ -80,5 +80,12 @@ impl TryFrom<Value> for Integer {
             Value::Integer(i) => Ok(i.clone()),
             _ => Err(Value::err("Attempted to convert non-integral `Value` to `Integer`")),
         }
+    }
+}
+
+impl std::ops::Add<Fraction> for Integer {
+    type Output = Fraction;
+    fn add(self, rhs: Fraction) -> Self::Output {
+        rhs + self
     }
 }

@@ -2,7 +2,7 @@ use super::Object;
 
 use crate::model::object::table::Table;
 use crate::model::object::fraction::Fraction;
-use crate::model::reference::Value;
+use crate::model::reference::{Value, Bind};
 
 use gc::{Finalize, Trace};
 use rug::Integer as BigInt;
@@ -42,11 +42,11 @@ impl std::ops::Div for Integer {
 }
 
 impl Object for Integer {
-    fn index(&self, index: Table) -> Value {
+    fn index(&self, index: Table) -> Bind {
         todo!("FIXME <Integer as Object>::index has not yet been implemented")
     }
 
-    fn get_field(&self, field: String) -> Value {
+    fn get_field(&self, field: String) -> Bind {
         todo!("FIXME <Integer as Object>::get_field has not yet been implemented")
     }
 

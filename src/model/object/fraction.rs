@@ -1,6 +1,6 @@
 use super::Object;
 
-use crate::model::reference::Value;
+use crate::model::reference::{Value, Bind};
 use crate::model::object::integer::Integer;
 
 use gc::{Finalize, Trace};
@@ -15,11 +15,11 @@ pub struct Fraction {
 }
 
 impl Object for Fraction {
-    fn index(&self, index: super::table::Table) -> Value {
+    fn index(&self, index: super::table::Table) -> Bind {
         todo!("FIXME <Fraction as Object>::index has not yet been implemented");
     }
 
-    fn get_field(&self, field: String) -> Value {
+    fn get_field(&self, field: String) -> Bind {
         todo!("FIXME <Fraction as Object>::get_field has not yet been implemented");
     }
 

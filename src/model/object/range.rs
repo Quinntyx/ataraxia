@@ -2,7 +2,7 @@ use super::Object;
 
 use crate::model::object::table::Table;
 use crate::model::object::integer::Integer;
-use crate::model::reference::Value;
+use crate::model::reference::{Value, Bind};
 
 use gc::{Finalize, Trace};
 
@@ -10,11 +10,11 @@ use gc::{Finalize, Trace};
 pub struct Range(Option<Integer>, Option<Integer>);
 
 impl Object for Range {
-    fn index(&self, index: Table) -> Value {
+    fn index(&self, index: Table) -> Bind {
         todo!("FIXME <Range as Object>::index has not yet been implemented")
     }
 
-    fn get_field(&self, field: String) -> Value {
+    fn get_field(&self, field: String) -> Bind {
         todo!("FIXME <Range as Object>::get_field has not yet been implemented")
     }
 }

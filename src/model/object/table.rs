@@ -7,7 +7,7 @@ use crate::model::object::range::Range;
 use crate::model::object::float::Float64;
 use crate::model::object::fraction::Fraction;
 use crate::model::object::error::Error;
-use crate::model::reference::Value;
+use crate::model::reference::{Value, Bind};
 
 use gc::{Finalize, Trace};
 
@@ -29,7 +29,7 @@ enum Key {
 impl From<Value> for Key {
     fn from(value: Value) -> Self {
         match &value {
-            Value::Ref(b) => Key::Ref(b.as_ref() as *const _ as usize),
+            Value::Opaque(b) => Key::Ref(b.as_ref() as *const _ as usize),
             Value::Range(r) => Key::Range(r.clone()),
             Value::F64(f) => Key::F64(f.clone()),
             Value::Fraction(f) => Key::Fraction(f.clone()),
@@ -37,7 +37,7 @@ impl From<Value> for Key {
             Value::Error(e) => Key::Error(e.clone()),
             Value::True => Key::True,
             Value::False => Key::False,
-            Value::Nil => unreachable!("Cannot construct a key from nil, this should have been caught by an earlier check and is unintended"),
+            Value::Nil => unreachable!("Cannot construct a key from nil, this should have been caught by an earlier check and is an unintended panic"),
         }
     }
 }
@@ -60,11 +60,11 @@ impl Table {
 }
 
 impl Object for Table {
-    fn index(&self, index: Table) -> Value {
+    fn index(&self, index: Table) -> Bind {
         todo!("FIXME <Table as Object>::index has not yet been implemented")
     }
 
-    fn get_field(&self, field: String) -> Value {
+    fn get_field(&self, field: String) -> Bind {
         todo!("FIXME <Table as Object>::get_field has not yet been implemented")
     }
 }

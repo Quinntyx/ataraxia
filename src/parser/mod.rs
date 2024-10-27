@@ -10,6 +10,7 @@ use crate::lexer::Token;
 use crate::model::expression::Element;
 use crate::model::expression::Expression as Expr;
 
+
 pub fn parser<'a, T>() -> impl Parser<'a, T, Expr, Err<Rich<'a, Token>>> + Clone
 // FIXME: Error handling
 where
@@ -147,7 +148,7 @@ where
                 .map(|e| {
                     Expr::cond(
                         Expr::b_true(),
-                        e.unwrap_or(Expr::nil("fell through if, no specified else")), // FIXME: change to nil
+                        e.unwrap_or(Expr::nil("fell through if, no specified else")),
                     )
                 }),
         )
@@ -156,6 +157,8 @@ where
             Expr::If(v)
         })
         .boxed();
+
+        
 
     let string = any()
         .filter(|t| matches!(t, Token::String(_)))

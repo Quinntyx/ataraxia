@@ -4,6 +4,7 @@ use crate::model::object::range::Range;
 use crate::model::object::float::Float64;
 use crate::model::object::fraction::Fraction;
 use crate::model::object::error::Error;
+use crate::model::object::scope::Scope;
 
 use gc::{Gc, GcCell, Trace, Finalize};
 
@@ -32,12 +33,16 @@ pub enum BindKind {
 }
 
 #[derive(Debug, Clone, Trace, Finalize)]
+/// A binding over a value tagging it with mutability and source data. 
+///
+/// * `kind`: The kind of binding (mutability data). 
+/// * `src`: The source of the binding (variable name, if any). Subject to change. 
+/// * `val`: The value contained within the binding. 
 pub struct Bind {
     #[unsafe_ignore_trace]
     pub kind: BindKind,
-    // Implement weak references
-    // #[unsafe_ignore_trace]
-    // pub src: 
+    #[unsafe_ignore_trace]
+    pub src: Option<String>,
     pub val: Value
 }
 
@@ -45,6 +50,7 @@ impl Bind {
     pub fn constant(val: Value) -> Bind {
         Bind {
             kind: BindKind::Constant,
+            src: None,
             val,
         }
     }
@@ -52,6 +58,7 @@ impl Bind {
     pub fn mutable(val: Value) -> Bind {
         Bind {
             kind: BindKind::Mutable,
+            src: None,
             val,
         }
     }
@@ -59,15 +66,26 @@ impl Bind {
     pub fn once(val: Value) -> Bind {
         Bind {
             kind: BindKind::Once,
+            src: None,
             val,
         }
     }
 
-    pub fn try_bind(&self, val: Bind) -> Option<Bind> {
+    pub fn try_bind(&self, scope: Scope, val: Bind) -> Bind {
+        // FIXME: Implement proper binding here using src, and change return type to `Option<Nil>`. 
         use BindKind::*;
+        let Some(src) = self.src else { return Bind::constant(Value::err("Cannot assign into a binding with no source")) };
+
         match (self.kind, val.kind) {
             (Constant, _) => None,
-            (Mutable, Constant) => Some(Bind { kind: Mutable, val: val.val.deep_clone(), }),
+            (Mutable, Constant) => {
+                scope.set(
+                Bind { 
+                    kind: Mutable,
+                    val: val.val.deep_clone(),
+                };
+                Bind::constant(Value::Nil)
+            },
             (Mutable, Mutable | Once) => Some(Bind { kind: Mutable, val: val.val.clone(), }),
             (Once, Constant) => Some(Bind { kind: Constant, val: val.val.deep_clone(), }),
             (Once, Mutable) => Some(Bind { kind: Constant, val: val.val.clone(), }),

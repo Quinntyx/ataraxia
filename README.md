@@ -7,6 +7,7 @@
 > Ataraxia 
 > 
 > n. calmness untroubled by mental or emotional disquiet
+> 
 > \- _Merriam-Webster Dictionary_
 
 Ataraxia is a simple, minimal programming language designed to be easy to pick up and use,

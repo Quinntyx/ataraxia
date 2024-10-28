@@ -80,7 +80,6 @@ impl Bind {
         f(self.clone());
         self
     }
-
 }
 
 impl Value {

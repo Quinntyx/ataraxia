@@ -66,8 +66,8 @@ pub enum Expression {
     Fn(Vec<Element>, Box<Expression>),
     Return(Option<Box<Expression>>),
 
-    Let(String),
-    Mut(String),
+    Let(String, Box<Expression>),
+    Mut(String, Box<Expression>),
 
     Table(Vec<Element>),
 }

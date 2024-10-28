@@ -64,13 +64,17 @@ where
     let r#let = just(Token::Let)
         .labelled("let")
         .ignore_then(ident_as_str.clone())
-        .map(|i| Expr::Let(i))
+        .then_ignore(just(Token::Assign))
+        .then(expr.clone())
+        .map(|(i, e)| Expr::Let(i, Box::new(e)))
         .boxed();
 
     let r#mut = just(Token::Mut)
         .labelled("mut")
         .ignore_then(ident_as_str.clone())
-        .map(|i| Expr::Mut(i))
+        .then_ignore(just(Token::Assign))
+        .then(expr.clone())
+        .map(|(i, e)| Expr::Mut(i, Box::new(e)))
         .boxed();
 
     let r#continue = just(Token::Continue)

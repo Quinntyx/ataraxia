@@ -21,7 +21,7 @@ pub fn eval(expr: E, scope: S) -> B {
             exprs
                 .into_iter()
                 .map(|i| eval(i, subscope.clone()))
-                .find(|i| matches!(i, B { kind: _, val: Value::Error(_) }))
+                .find(|i| matches!(i, B { kind: _, src: _, val: Value::Error(_) }))
                 .unwrap_or_else(|| eval(*rtn, subscope.clone()))
         },
         E::Operator { op, left, right } => {
@@ -30,15 +30,16 @@ pub fn eval(expr: E, scope: S) -> B {
                 Op::Divide => B::constant(eval(*left, scope.clone()).val.clone() / eval(*right, scope.clone()).val.clone()),
                 Op::Minus => B::constant(eval(*left, scope.clone()).val.clone() - eval(*right, scope.clone()).val.clone()),
                 Op::Multiply => B::constant(eval(*left, scope.clone()).val.clone() * eval(*right, scope.clone()).val.clone()),
-                Op::Assign => dbg!(eval(*left, scope.clone())) 
-                    HERE Implement weak references OR place expressions
-                    .try_bind(dbg!(eval(*right, scope.clone())))
-                    .unwrap_or_else(|| B::constant(Value::err("Attempted to assign into a constant binding"))),
+                Op::Assign => {
+                    let lhs = eval(*left, scope.clone());
+                    let Some(src) = lhs.src.clone() else { return B::constant(Value::err("Cannot assign into a binding with no source")) };
+                    B::constant(scope.clone().set(src, eval(*right, scope.clone())))
+                }
                 _ => B::constant(Value::err("Operator has not yet been implemented")),
             }
         },
         E::Frac(f) => B::constant(Value::Fraction(f)),
-        E::Let(f) => scope.alloc(f, B::once(Value::Opaque(Box::new(Gc::new(GcCell::new(Unbound)))))),
+        E::Let(i, v) => scope.alloc(i, eval(*v, scope.clone())),
         E::Identifier(i) => scope.get(i),
 
         _ => todo!("Not yet implemented"),

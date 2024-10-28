@@ -256,8 +256,36 @@ mut set_A = [
 ];
 
 // union operator fr
-set_A :U [ 4, 3, 2 ]; // -> [1, 2, 3, 4]
+set_A :U [ 4, 3, 2 ]; // -> [U = <fn>, 1, 2, 3, 4]
    @end
+
+** Modules
+   Modules are implemented following the Lua pattern. A module is effectively a giant expression, a single code block, which is run when
+   `require` is called on it. 
+@code rust
+// foo.ax
+5 + 8
+   @end
+
+@code rust
+// bar.ax
+let foo = require('foo');
+print(foo); // 13
+   @end
+
+** Types
+   When the `:type` property is invoked on a desk, it returns another desk representing that object's type. This is primarily to facilitate
+   prototype-based object-oriented programming paradigm that Ataraxia (and Lua) support, and serves a similar goal to Lua's `metatable`. 
+
+   In more detail, invoking a property `a:b` does not just do `a.b(a)`, it rather does the following: 
+@code rust
+if a.has("b") do a.b(a) else if a:type.has("b") do a:type.b(a) else do Err("undefined field b on desk a");
+   @end
+
+   As a result, a type can be viewed as a `metadesk` for another desk. By default, all desks have the `desk` type, which contains the
+   `:type` method, as well as a few methods like `:set_type`, which overwrites an internal value (that you can't see without using `:type`,
+   which is implemented using internals from Rust) to change the type of the desk. Since it would be bad if these internals got deleted,
+   `type` and `set_type` are both specially transferred over to the new type before the old desk is dropped. 
 
 ** Operator Overloading
    Operator overloading is currently not possible, but I am thinking about adding it in the future. 

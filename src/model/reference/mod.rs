@@ -29,7 +29,6 @@ pub enum Value {
 pub enum BindKind {
     Constant,
     Mutable,
-    Once,
 }
 
 #[derive(Debug, Clone, Trace, Finalize)]
@@ -64,34 +63,24 @@ impl Bind {
     }
 
     pub fn once(val: Value) -> Bind {
-        Bind {
-            kind: BindKind::Once,
-            src: None,
-            val,
-        }
+        panic!("This has been removed.");
     }
 
-    pub fn try_bind(&self, scope: Scope, val: Bind) -> Bind {
-        // FIXME: Implement proper binding here using src, and change return type to `Option<Nil>`. 
-        use BindKind::*;
-        let Some(src) = self.src else { return Bind::constant(Value::err("Cannot assign into a binding with no source")) };
-
-        match (self.kind, val.kind) {
-            (Constant, _) => None,
-            (Mutable, Constant) => {
-                scope.set(
-                Bind { 
-                    kind: Mutable,
-                    val: val.val.deep_clone(),
-                };
-                Bind::constant(Value::Nil)
-            },
-            (Mutable, Mutable | Once) => Some(Bind { kind: Mutable, val: val.val.clone(), }),
-            (Once, Constant) => Some(Bind { kind: Constant, val: val.val.deep_clone(), }),
-            (Once, Mutable) => Some(Bind { kind: Constant, val: val.val.clone(), }),
-            (Once, Once) => Some(Bind { kind: Once, val: val.val.clone(), }),
-        }
+    pub fn map<T>(self, mut f: T) -> Self
+    where
+        T: FnMut(Self) -> Self
+    {
+        f(self)
     }
+    
+    pub fn inspect_mut<T>(self, mut f: T) -> Self
+    where
+        T: FnMut(Self)
+    {
+        f(self.clone());
+        self
+    }
+
 }
 
 impl Value {

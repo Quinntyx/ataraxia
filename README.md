@@ -40,15 +40,15 @@ Inspired by Rust, Ataraxia sports a transitive mutability system for declaring v
 The output of a literal expression (ints, strings, etc.) is mutable by default. 
 ```rust
 let a = 5;
- b = 7;
+mut b = 7;
 
- 8; // Invalid! returns an error.
- 12; // Valid
+a = 8; // Invalid! returns an error.
+b = 12; // Valid
 
- c = b; // coerce mutable to immutable
- 17; // Invalid! returns an error. 
+let c = b; // coerce mutable to immutable
+c = 17; // Invalid! returns an error. 
 
- d = a; // Invalid! returns an error. 
+mut d = a; // Invalid! returns an error. 
 ```
 
 

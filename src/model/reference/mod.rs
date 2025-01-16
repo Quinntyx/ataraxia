@@ -5,6 +5,7 @@ use crate::model::object::float::Float64;
 use crate::model::object::fraction::Fraction;
 use crate::model::object::error::Error;
 use crate::model::object::scope::Scope;
+use crate::model::expression::{Element, Expression};
 
 use gc::{Gc, GcCell, Trace, Finalize};
 

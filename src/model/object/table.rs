@@ -57,6 +57,17 @@ impl Table {
         self.0
             .insert(key.clone().into(), (key, value));
     }
+
+    pub fn push_list(&mut self, value: Value) {
+        let idx = self.0
+            .values()
+            // Note: Inefficiency here
+            .filter_map(|(k, v)| match k { Value::Integer(i) => Some(i.clone()), _ => None, })
+            .max()
+            .unwrap_or(Integer::from(0));
+
+        self.insert(Value::Integer(Integer::from(idx + Integer::from(1))), value);
+    }
 }
 
 impl Object for Table {

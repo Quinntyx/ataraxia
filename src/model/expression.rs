@@ -1,10 +1,31 @@
 use crate::model::operator::Operator;
 use crate::model::object::fraction::Fraction;
+use crate::model::reference::{Bind, BindKind};
+
+use gc::{Trace, Finalize};
 
 #[derive(Clone, Debug)]
 pub enum Element {
-    KV((Expression, Expression)),
+    KV((String, Expression)),
     V(Expression),
+}
+
+#[derive(Clone, Debug)]
+pub enum EvaluatedElement {
+    KV(String, Bind),
+    V(Bind),
+}
+
+#[derive(Clone, Debug)]
+pub enum Argument {
+    KV(String, Expression, BindKind),
+    V(String, BindKind),
+}
+
+#[derive(Clone, Debug, Finalize, Trace)]
+pub enum EvaluatedArgument {
+    KV(String, Bind, #[unsafe_ignore_trace] BindKind),
+    V(String, #[unsafe_ignore_trace] BindKind),
 }
 
 #[derive(Clone, Debug)]
@@ -63,7 +84,7 @@ pub enum Expression {
     Call(Box<Expression>, Vec<Element>),
     Method(Box<Expression>, String),
 
-    Fn(Vec<Element>, Box<Expression>),
+    Fn(Vec<Argument>, Box<Expression>),
     Return(Option<Box<Expression>>),
 
     Let(String, Box<Expression>),

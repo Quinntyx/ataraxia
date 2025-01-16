@@ -38,7 +38,7 @@ sources:
 ** Variable Declaration
    Inspired by Rust, Ataraxia sports a transitive mutability system for declaring variables.
    The output of a literal expression (ints, strings, etc.) is mutable by default. 
-   @code rust
+ @code rust
 let a = 5;
 mut b = 7;
 

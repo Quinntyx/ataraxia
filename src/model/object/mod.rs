@@ -17,6 +17,7 @@ use gc::{Finalize, Gc, GcCell, Trace};
 use std::fmt::Debug;
 
 use crate::model::reference::{Value, Bind};
+use crate::model::expression::EvaluatedElement;
 
 pub trait Object: DynClone + Debug + Trace + Finalize {
     fn get_field(&self, field: String) -> Bind {
@@ -39,6 +40,10 @@ pub trait Object: DynClone + Debug + Trace + Finalize {
 
     fn div_value(&self, other: Value) -> Value {
         Value::err(format!("Attempted to divide objects {:?} and {:?} without a div implementation", self, other))
+    }
+
+    fn call(&self, args: Vec<EvaluatedElement>) -> Value {
+        Value::err(format!("Attempted to call object {:?} without a call implementation", self))
     }
 }
 

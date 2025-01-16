@@ -7,9 +7,9 @@ use chumsky::extra::Err;
 use chumsky::span::SimpleSpan;
 
 use crate::lexer::Token;
-use crate::model::expression::Element;
+use crate::model::expression::{Element, Argument};
 use crate::model::expression::Expression as Expr;
-
+use crate::model::reference::BindKind;
 
 pub fn parser<'a, T>() -> impl Parser<'a, T, Expr, Err<Rich<'a, Token>>> + Clone
 // FIXME: Error handling
@@ -47,7 +47,7 @@ where
         .labelled("identifier")
         .boxed();
 
-    let kvset = ident
+    let kvset = ident_as_str
         .clone()
         .then_ignore(just(Token::Assign))
         .then(expr.clone())
@@ -104,10 +104,34 @@ where
         .map(|e| Expr::Return(e))
         .boxed();
 
+    let argset_v = just(Token::Mut).or_not()
+        .map(|v| match v {
+            Some(_) => BindKind::Mutable,
+            _ => BindKind::Constant
+        }).then(ident_as_str.clone())
+        .map(|(b, s)| Argument::V(s, b));
+
+    let argset_kv = just(Token::Mut).or_not()
+        .map(|v| match v {
+            Some(_) => BindKind::Mutable,
+            _ => BindKind::Constant
+        }).then(ident_as_str.clone())
+        .then_ignore(just(Token::Assign))
+        .then(expr.clone())
+        .map(|((b, s), e)| Argument::KV(s, e, b));
+
+    let argset = choice((
+            argset_v,
+            argset_kv
+        ))
+        .separated_by(just(Token::Semicolon))
+        .allow_trailing()
+        .collect::<Vec<Argument>>();
+
     let r#fn = just(Token::Function)
         .labelled("fn")
         .ignore_then(
-            kvset
+            argset
                 .clone()
                 .delimited_by(
                     just(Token::OpenParen).labelled("opening parenthesis"),

@@ -1,7 +1,7 @@
 use super::Object;
 
 use crate::object::table::Table;
-use crate::reference::{Value, Bind};
+use crate::reference::Bind;
 
 impl Object for bool {
     fn index(&self, index: Table) -> Bind {

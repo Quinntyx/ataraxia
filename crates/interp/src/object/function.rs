@@ -4,10 +4,6 @@ use ataraxia_model::expression::Expression;
 use crate::object::scope::Scope;
 use crate::object::table::Table;
 use crate::reference::{Value, Bind, EvaluatedArgument, EvaluatedElement};
-use crate::eval::eval;
-
-use std::collections::HashSet;
-
 use gc::{Finalize, Trace};
 
 #[derive(Clone, Debug, Trace, Finalize)]

@@ -1,8 +1,6 @@
 use crate::operator::Operator;
 use crate::fraction::Fraction;
 
-use gc::{Trace, Finalize};
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BindKind {
     Constant,

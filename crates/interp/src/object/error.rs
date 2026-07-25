@@ -2,7 +2,7 @@ use super::Object;
 
 use gc::{Finalize, Trace};
 
-use crate::reference::{Value, Bind};
+use crate::reference::Bind;
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq, Finalize, Trace)]
 pub struct Error(pub String);

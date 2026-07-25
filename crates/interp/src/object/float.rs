@@ -1,7 +1,7 @@
 use super::Object;
 
 use crate::object::table::Table;
-use crate::reference::{Value, Bind};
+use crate::reference::Bind;
 
 use ordered_float::OrderedFloat;
 use gc::{Trace, Finalize};

@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::reference::{Bind, Value, BindKind};
 
-use gc::{Trace, Finalize, Gc, GcCell, GcCellRefMut};
+use gc::{Trace, Finalize, Gc, GcCell};
 
 #[derive(Clone, Debug, Trace, Finalize)]
 pub struct Scope(Gc<GcCell<HashMap<String, Bind>>>);

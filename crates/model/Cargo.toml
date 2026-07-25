@@ -1,0 +1,8 @@
+[package]
+name = "ataraxia-model"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+gc = { workspace = true }
+rug = { workspace = true }

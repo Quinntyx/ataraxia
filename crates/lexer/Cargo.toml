@@ -1,0 +1,8 @@
+[package]
+name = "ataraxia-lexer"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+ataraxia-model = { workspace = true }
+logos = { workspace = true }

@@ -1,0 +1,11 @@
+[package]
+name = "ataraxia-interp"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+ataraxia-model = { workspace = true }
+dyn-clone = { workspace = true }
+gc = { workspace = true }
+ordered-float = { workspace = true }
+rug = { workspace = true }

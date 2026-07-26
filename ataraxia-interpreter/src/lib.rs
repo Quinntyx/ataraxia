@@ -5,4 +5,4 @@ pub mod eval;
 pub mod object;
 pub mod reference;
 
-pub use ataraxia_model::fraction::Fraction;
+pub use ataraxia_proto::fraction::Fraction;

@@ -1,5 +1,5 @@
-use ataraxia_model::expression::{Expression as E, Argument as A, Element as El, BindKind as BK};
-use ataraxia_model::operator::Operator as Op;
+use ataraxia_proto::expression::{Expression as E, Argument as A, Element as El, BindKind as BK};
+use ataraxia_proto::operator::Operator as Op;
 use crate::object::range::Range;
 use crate::object::scope::Scope as S;
 use crate::object::function::Function as Func;

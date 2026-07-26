@@ -5,8 +5,8 @@ use logos::Logos;
 
 use ataraxia_lexer::Token;
 use ataraxia_parser::parser;
-use ataraxia_interp::eval::eval;
-use ataraxia_interp::object::scope::Scope;
+use ataraxia_interpreter::eval::eval;
+use ataraxia_interpreter::object::scope::Scope;
 
 fn main() {
     let src = std::fs::read_to_string(std::env::args().nth(1).unwrap()).unwrap();

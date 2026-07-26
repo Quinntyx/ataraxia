@@ -1,5 +1,5 @@
 [package]
-name = "ataraxia-model"
+name = "ataraxia-proto"
 version.workspace = true
 edition.workspace = true
 

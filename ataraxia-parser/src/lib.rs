@@ -7,7 +7,7 @@ use chumsky::extra::Err;
 use chumsky::span::SimpleSpan;
 
 use ataraxia_lexer::Token;
-use ataraxia_model::expression::{Element, Argument, BindKind, Expression as Expr};
+use ataraxia_proto::expression::{Element, Argument, BindKind, Expression as Expr};
 
 pub fn parser<'a, T>() -> impl Parser<'a, T, Expr, Err<Rich<'a, Token>>> + Clone
 // FIXME: Error handling

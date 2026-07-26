@@ -1,10 +1,10 @@
 [package]
-name = "ataraxia-interp"
+name = "ataraxia-interpreter"
 version.workspace = true
 edition.workspace = true
 
 [dependencies]
-ataraxia-model = { workspace = true }
+ataraxia-proto = { workspace = true }
 dyn-clone = { workspace = true }
 gc = { workspace = true }
 ordered-float = { workspace = true }

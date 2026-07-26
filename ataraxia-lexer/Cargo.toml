@@ -4,5 +4,5 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-ataraxia-model = { workspace = true }
+ataraxia-proto = { workspace = true }
 logos = { workspace = true }

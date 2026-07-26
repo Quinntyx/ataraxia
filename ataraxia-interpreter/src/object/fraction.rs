@@ -2,7 +2,7 @@ use super::Object;
 use crate::object::integer::Integer;
 use crate::object::table::Table;
 use crate::reference::{Bind, Value};
-pub use ataraxia_model::fraction::Fraction;
+pub use ataraxia_proto::fraction::Fraction;
 
 impl Object for Fraction {
     fn index(&self, index: Table) -> Bind {

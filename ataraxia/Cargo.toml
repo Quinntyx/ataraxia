@@ -1,12 +1,12 @@
 [package]
-name = "ataraxia-parser"
+name = "ataraxia"
 version.workspace = true
 edition.workspace = true
 
 [dependencies]
-ataraxia-model = { workspace = true }
 ataraxia-lexer = { workspace = true }
+ataraxia-parser = { workspace = true }
+ataraxia-interpreter = { workspace = true }
+ataraxia-proto = { workspace = true }
 chumsky = { workspace = true }
-
-[dev-dependencies]
 logos = { workspace = true }

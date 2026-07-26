@@ -3,8 +3,8 @@ use crate::object::integer::Integer;
 use crate::object::range::Range;
 use crate::object::float::Float64;
 use crate::object::error::Error;
-pub use ataraxia_model::expression::BindKind;
-use ataraxia_model::fraction::Fraction;
+pub use ataraxia_proto::expression::BindKind;
+use ataraxia_proto::fraction::Fraction;
 
 use gc::{Gc, GcCell, Trace, Finalize};
 

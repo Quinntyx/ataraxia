@@ -1,6 +1,6 @@
 use super::Object;
 
-use ataraxia_model::expression::Expression;
+use ataraxia_proto::expression::Expression;
 use crate::object::scope::Scope;
 use crate::object::table::Table;
 use crate::reference::{Value, Bind, EvaluatedArgument, EvaluatedElement};

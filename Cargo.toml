@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*"]
+members = ["ataraxia-proto", "ataraxia-lexer", "ataraxia-parser", "ataraxia-interpreter", "ataraxia"]
 resolver = "2"
 
 [workspace.package]
@@ -7,10 +7,10 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace.dependencies]
-ataraxia-model = { path = "crates/model" }
-ataraxia-lexer = { path = "crates/lexer" }
-ataraxia-parser = { path = "crates/parser" }
-ataraxia-interp = { path = "crates/interp" }
+ataraxia-proto = { path = "ataraxia-proto" }
+ataraxia-lexer = { path = "ataraxia-lexer" }
+ataraxia-parser = { path = "ataraxia-parser" }
+ataraxia-interpreter = { path = "ataraxia-interpreter" }
 chumsky = { version = "1.0.0-alpha.7", features = ["nightly", "label"] }
 dyn-clone = "1.0.17"
 gc = { version = "0.5.0", features = ["derive", "nightly"] }

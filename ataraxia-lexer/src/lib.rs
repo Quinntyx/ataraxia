@@ -1,4 +1,4 @@
-use ataraxia_model::fraction::Fraction;
+use ataraxia_proto::fraction::Fraction;
 
 use logos::Logos;
 

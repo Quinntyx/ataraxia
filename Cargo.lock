@@ -33,19 +33,19 @@ checksum = "5c6cb57a04249c6480766f7f7cef5467412af1490f8d1e243141daddada3264f"
 name = "ataraxia"
 version = "0.1.0"
 dependencies = [
- "ataraxia-interp",
+ "ataraxia-interpreter",
  "ataraxia-lexer",
- "ataraxia-model",
  "ataraxia-parser",
+ "ataraxia-proto",
  "chumsky",
  "logos",
 ]
 
 [[package]]
-name = "ataraxia-interp"
+name = "ataraxia-interpreter"
 version = "0.1.0"
 dependencies = [
- "ataraxia-model",
+ "ataraxia-proto",
  "dyn-clone",
  "gc",
  "ordered-float",
@@ -56,16 +56,8 @@ dependencies = [
 name = "ataraxia-lexer"
 version = "0.1.0"
 dependencies = [
- "ataraxia-model",
+ "ataraxia-proto",
  "logos",
-]
-
-[[package]]
-name = "ataraxia-model"
-version = "0.1.0"
-dependencies = [
- "gc",
- "rug",
 ]
 
 [[package]]
@@ -73,9 +65,17 @@ name = "ataraxia-parser"
 version = "0.1.0"
 dependencies = [
  "ataraxia-lexer",
- "ataraxia-model",
+ "ataraxia-proto",
  "chumsky",
  "logos",
+]
+
+[[package]]
+name = "ataraxia-proto"
+version = "0.1.0"
+dependencies = [
+ "gc",
+ "rug",
 ]
 
 [[package]]
